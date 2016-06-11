@@ -56,8 +56,8 @@ export function fetchGame(){
   return function(dispatch){
     axios.post('/game')
       .then(response => {
-        dispatch({type: CREATE_GAME, payload: response.data.game});
-        // browserHistory.push('/gameboard');
+        dispatch({type: CREATE_GAME, payload: response.data.clues});
+        browserHistory.push('/gameboard');
       })
       .catch(response => {
         console.log(response);

@@ -64,18 +64,11 @@ module.exports = function(app, io) {
 						payload[1].push(clues.clues[j]);
 					}
 				})
-				.catch(function(err) {
-					console.log(err);
-				})
+				.catch(function(err) {console.log(err);})
 			}
 			//Neatly pack them up to be delivered to client
-			setTimeout(function(){ 
-				console.log(payload);
-			// res.json({ clues: payload });
-			 }, 500);
+			setTimeout(function(){ res.json({ clues: payload }); }, 500);
 		})
-		.catch(function(err) {
-			console.log(err);
-		});
+		.catch(function(err) { console.log(err); });
 	});
 }

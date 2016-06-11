@@ -1,10 +1,10 @@
 import { CREATE_GAME } from '../actions/index';
 
-export default function(state={}, action){
+export default function(state = {}, action){
   switch(action.payload){
     case CREATE_GAME:
-      var newState= {...state};
-      newState= action.payload;
+      var newState = {...state};
+      newState = action.payload;
       return newState;
     default:
       return state;
