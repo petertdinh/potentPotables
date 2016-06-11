@@ -36,36 +36,43 @@ module.exports = function(app, io) {
 	});
 
 	app.post('/game', function(req, res, next) {
+		//Host selects the size of the game board, otherwise defaults to 5x6
+		var columns = req.body.categories || 6;
+		var rows = req.body.clues || 5;
+		//Grab 13 random clues and out of those, randomly pick out 6 of the 13
 		rp('http://jservice.io/api/random?count=13')
-		.then(function(body) {
-			return JSON.parse(body);
-		})
-		.then(function(array) { 
+		.then((body) => {
+			var array = JSON.parse(body); 
 			var categories = [];
 			_.shuffle(array).forEach(category => {
-				if (categories.indexOf(category.category_id) > -1 || categories.length > 5) {
+				if (categories.indexOf(category.category_id) > -1 || categories.length > columns - 1) {
 				} else {
 					categories.push(category.category_id)
 				}
 			})
 			return categories
 		})
-		.then(function(categories){
+		//Once you have your 6 categories, make another call to the API to grab the clues that belong to them.
+		.then((categories) => {
 			var payload = [[],[]];
 			for(var i = 0; i < categories.length; i++){
 				rp('http://jservice.io/api/category?id=' + categories[i])
-				.then(function(clues) {
-					payload[0].push(JSON.parse(clues).title);
-					for(var j = 0; j < 5; j++){
-						payload[1].push(JSON.parse(clues).clues[j]);
+				.then((clues) => {
+					var clues = JSON.parse(clues);
+					payload[0].push(clues.title);
+					for(var j = 0; j < rows; j++){
+						payload[1].push(clues.clues[j]);
 					}
 				})
 				.catch(function(err) {
-					console.log('this is err', err);
+					console.log(err);
 				})
 			}
-			setTimeout(function(){ console.log(payload) }, 500);
-			// res.json({ clues: clues });
+			//Neatly pack them up to be delivered to client
+			setTimeout(function(){ 
+				console.log(payload);
+			// res.json({ clues: payload });
+			 }, 500);
 		})
 		.catch(function(err) {
 			console.log(err);
