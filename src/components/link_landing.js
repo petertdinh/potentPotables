@@ -14,7 +14,7 @@ class LinkLanding extends Component {
   }
 };
 
-function MapStateToProps(state) {
+function mapStateToProps(state) {
   return {link: state.sessionID};
 }
 export default connect(mapStateToProps, { fetchGame })(LinkLanding)

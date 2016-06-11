@@ -48,5 +48,5 @@ function mapStateToProps(state){
 
 export default reduxForm({
   form: 'LinkForm',
-  fields: [ linkCode ]
+  fields: [ 'linkCode' ]
 }, mapStateToProps, { setUserType, linkCodeVerification })(LinkVerification);

@@ -10,7 +10,7 @@ export const CREATE_GAME= 'CREATE_GAME';
 
 export function createSession() {
   return function(dispatch){
-    axios.get('/create')
+    axios.post('/create')
       .then( response => {
         dispatch({type: CREATE_SESSION, payload: response});
         browserHistory.push('/linklanding');
@@ -57,7 +57,7 @@ export function fetchGame(){
     axios.get('/game')
       .then(response => {
         dispatch({type: CREATE_GAME, payload: response.data.game});
-        browserHistory.push('/gameboard');
+        // browserHistory.push('/gameboard');
       })
       .catch(response => {
         console.log(response);
