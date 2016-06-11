@@ -1,10 +1,11 @@
 const CreateSession = require('./controllers/createsession');
 const path = require('path');
-const request = require('request');
+const rp = require('request-promise');
+const _ = require('lodash');
 
 module.exports = function(app, io) {
 
-	app.disable('etag');
+	app.set('etag', false);
 
 	app.get('/', function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../index.html'));
@@ -34,12 +35,27 @@ module.exports = function(app, io) {
 		res.json({ session: req.body.session })
 	});
 
-	app.get('/game', function(req, res, next) {
-		console.log('poop');
-		// request('http://jservice.io/api/random?count=6', function(err, response, body) {
-		// 	console.log('poop');
-		// 	if(err) { console.log(err) }
-		// 	if(!err && response.statusCode === 200){ console.log('poop'); }
-		// })();
+	var clues = [];
+	app.post('/game', function(req, res, next) {
+		rp('http://jservice.io/api/random?count=13')
+		.then(function(body) {
+			return JSON.parse(body);
+		})
+		.then(function(array) { 
+			var categories = [];
+			_.shuffle(array).forEach(clue => {
+				if (categories.indexOf(clue.category_id) > -1 || categories.length > 5) {
+				} else {
+					categories.push(clue.category_id)
+				}
+			})
+			return clues = categories;
+		});
+		// .then(function(categories) {
+		// 	categories.forEach(category => {
+		// 		return clues.push([rp('http://jservice.ip/api/categories?int' + category)]);
+		// 	})
+		// });
+		console.log(clues);
 	});
 }
