@@ -35,7 +35,6 @@ module.exports = function(app, io) {
 		res.json({ session: req.body.session })
 	});
 
-	var clues = [];
 	app.post('/game', function(req, res, next) {
 		rp('http://jservice.io/api/random?count=13')
 		.then(function(body) {
@@ -43,19 +42,33 @@ module.exports = function(app, io) {
 		})
 		.then(function(array) { 
 			var categories = [];
-			_.shuffle(array).forEach(clue => {
-				if (categories.indexOf(clue.category_id) > -1 || categories.length > 5) {
+			_.shuffle(array).forEach(category => {
+				if (categories.indexOf(category.category_id) > -1 || categories.length > 5) {
 				} else {
-					categories.push(clue.category_id)
+					categories.push(category.category_id)
 				}
 			})
-			return clues = categories;
+			return categories
+		})
+		.then(function(categories){
+			var payload = [[],[]];
+			for(var i = 0; i < categories.length; i++){
+				rp('http://jservice.io/api/category?id=' + categories[i])
+				.then(function(clues) {
+					payload[0].push(JSON.parse(clues).title);
+					for(var j = 0; j < 5; j++){
+						payload[1].push(JSON.parse(clues).clues[j]);
+					}
+				})
+				.catch(function(err) {
+					console.log('this is err', err);
+				})
+			}
+			setTimeout(function(){ console.log(payload) }, 500);
+			// res.json({ clues: clues });
+		})
+		.catch(function(err) {
+			console.log(err);
 		});
-		// .then(function(categories) {
-		// 	categories.forEach(category => {
-		// 		return clues.push([rp('http://jservice.ip/api/categories?int' + category)]);
-		// 	})
-		// });
-		console.log(clues);
 	});
 }
