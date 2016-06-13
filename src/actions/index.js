@@ -32,7 +32,7 @@ export function linkCodeVerification({linkcode}) {
     axios.post('/linkcode', {linkcode})
       .then(response => {
         const currentState= getState();
-        currentState.user.userType !== 'host' ? browserHistory.push('/playerconfig') : browserHistory.push('/hostgameplay');
+        currentState.user.userType !== 'host' ? browserHistory.push('/userconfig') : browserHistory.push('/hostgameplay');
         dispatch({type: LINK_CODE_AUTH, payload: response.data.room})
       })
       .catch(response => {
@@ -58,6 +58,7 @@ export function fetchGame(){
   return function(dispatch){
     axios.post('/game')
       .then(response => {
+        console.log(response);
         dispatch({type: CREATE_GAME, payload: response.data.clues});
         dispatch({type: ACTIVATE_GAME, payload: true});
         browserHistory.push('/gameboard');
