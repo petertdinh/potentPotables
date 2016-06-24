@@ -19,7 +19,12 @@
 	src:
 		url('./assets/fonts/Swiss_911_Extra_Compressed.woff') format('woff'),
 		url('./assets/fonts/Swiss_911_Extra_Compressed.woff2') format('woff2');
+}
 
+@font-face {
+	font-family: 'Gyparody';
+	src:
+		url('./assets/fonts/gyparody.regular.ttf');
 }
 
 
@@ -40,7 +45,7 @@ a {
 }
 
 .container {
-	position: fixed;
+	/*position: fixed;*/
 	justify-content: center;
 	align-items: center;
 	width: 100%;
@@ -225,8 +230,9 @@ a.join.btn.btn-primary.btn-lg {
 
 #stack {
 	margin: auto;
-	width: 55%;
+	width: 40%;
 	margin-bottom: 20px;
+	/*display: block;*/
 }
 
 .stack.intro {
@@ -430,6 +436,7 @@ a[disabled] {
 
 .create.a {
 	text-decoration: none;
+	font-family: "Gyparody";
 	color: navy;
 	width: 150px;
 	height: 50px;
@@ -496,4 +503,14 @@ a[disabled] {
 .btm {
 	margin-top: 30px;
 	margin-bottom: 45px;
+}
+
+.parent {
+	display: flex;
+	justify-content: space-around;
+}
+
+.developers {
+	text-align: center;
+	padding-bottom: 20px;
 }
