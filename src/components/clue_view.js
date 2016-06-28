@@ -14,7 +14,7 @@ class ClueView extends Component {
     }
   }
 
-  componentDidUpdate(){
+  componentDidUpdate() {
     if(Object.keys(this.props.answeredClues).length === 60){
       return this.context.router.push('/end');
     }
