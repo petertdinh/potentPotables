@@ -4,12 +4,17 @@ import _ from 'lodash';
 
 class End extends Component {
 
+	componentDidMount() {
+		const end = new Audio('http://www.orangefreesounds.com/wp-content/uploads/2014/10/Jeopardy-theme-song.mp3');
+		end.play();
+	}
+
 	render(){
 		const scores = _.map(this.props.users, function(user) {
 			return (
-				<div key={user.username}>
+				<div className="report" key={user.username}>
 						<span className="finaluser">{user.username}:</span>
-						<span>{user.score > 0 ? '$' + user.score : '-$' + user.score}</span>
+						<span className="finalscore">{user.score > 0 ? '$' + user.score : '-$' + user.score}</span>
 				</div>
 			);
 		});
@@ -19,22 +24,6 @@ class End extends Component {
 	      	<h1 className="thankyou animated infinite flash">Thank you for playing!</h1>
 	      	<div className="final header"><strong>Final scores:</strong></div>
 	      	<div className="final scores">
-		      	<div className="report">
-		      		<span className="finaluser">peter:</span>
-		      		<span className="finalscore">$5000</span>
-		      	</div>
-		      	<div>
-		      		<span className="finaluser">chris:</span>
-		      		<span className="finalscore">$5000</span>
-		      	</div>
-		      	<div>
-		      		<span className="finaluser">lukas:</span>
-		      		<span className="finalscore">$5000</span>
-		      	</div>
-		      	<div>
-		      		<span className="finaluser">luasdfasdfkas:</span>
-		      		<span className="finalscore">$0</span>
-		      	</div>
 	      		{ scores }
 	      	</div>
 	      </div>
