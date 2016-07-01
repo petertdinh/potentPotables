@@ -42,6 +42,12 @@ class HostGamePlay extends Component {
     }
   }
   render(){
+    let clues = this.props.clues;
+    const categories = this.props.categories.map((category) => {
+      return <HostCategory 
+              key={category}
+              clues={clues.splice(0,5)}/>
+    });
     return (
       <div className= 'gameplay-view'>
       {this.props.isGameActive === false ?
@@ -60,7 +66,7 @@ class HostGamePlay extends Component {
           </div>
         </div>:
         <div className="waitingClue animated infinite flash">
-          Waiting for clue to be selected...
+          Waiting for clue to be selected...{/*categories*/}
         </div>
       }
       </div>
@@ -75,6 +81,7 @@ function mapStateToProps(state){
     activeClue: state.gameplay.activeClue,
     room: state.linkAuth.linkCode,
     categories: state.gameboard.categories,
+    clues: state.gameboard.clues,
   };
 }
 
