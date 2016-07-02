@@ -81,15 +81,15 @@ export function fetchGame(linkcode) {
   return function(dispatch){
     axios.post('/game', {linkcode})
       .then(response => {
-        var tempClues= response.data.clues;
-        for (var i= 0; i< tempClues.clues.length; i+=5){
-          tempClues.clues[i].value= 200;
-          tempClues.clues[i+1].value= 400;
-          tempClues.clues[i+2].value= 600;
-          tempClues.clues[i+3].value= 800;
-          tempClues.clues[i+4].value= 1000;
-        }
-        dispatch({type: CREATE_GAME, payload: tempClues});
+        // var tempClues= response.data.clues;
+        // for (var i= 0; i< tempClues.clues.length; i+=5){
+        //   tempClues.clues[i].value= 200;
+        //   tempClues.clues[i+1].value= 400;
+        //   tempClues.clues[i+2].value= 600;
+        //   tempClues.clues[i+3].value= 800;
+        //   tempClues.clues[i+4].value= 1000;
+        // }
+        // dispatch({type: CREATE_GAME, payload: tempClues});
       })
       .catch(response => {
         console.log(response);

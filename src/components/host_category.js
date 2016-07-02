@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 
 
-const HostCategories = (props) => (
-	//categories= map over categories
-	// return <Category onClick= push to Clue>
-      <div>
-      	{props.key}
-      </div>
-	)
+class HostCategory extends Component {
+	constructor(props){
+		super(props)
+		this.state= {
+			renderCategories: true,
+		}
+	}
+	render() {
+		return(
+			<div>
+				{props.category}
+			</div>
+		);
+	}
+}
 
-export default HostCategories;
+export default HostCategory;

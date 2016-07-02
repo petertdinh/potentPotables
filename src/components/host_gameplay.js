@@ -1,13 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { activateButtons } from '../sockets_client';
-import { HostCategory } from './host_category';
+import { activateButtons, hostJoins } from '../sockets_client';
+import HostCategory from './host_category';
 
 class HostGamePlay extends Component {
   constructor(props){
     super(props)
+    this.state = {categories: [], clues: []}
     this.handleQuestionLength= this.handleQuestionLength.bind(this);
+  }
+
+  componentWillMount() {
+    // hostJoins(this.props.room);
+  }
+
+  componentWillReceiveProps() {
+    if(this.props.categories !== null){
+      let clues = this.props.clues;
+      let tempCategories= this.props.categories.map((category) => {
+          return <HostCategory 
+                  key={category}
+                  category={category}
+                  clues={clues.splice(0,5)}/>
+      });
+      this.setState({categories: tempCategories});
+    }
   }
   handleClick(){
     activateButtons(this.props.room);
@@ -42,12 +60,12 @@ class HostGamePlay extends Component {
     }
   }
   render(){
-    let clues = this.props.clues;
-    const categories = this.props.categories.map((category) => {
-      return <HostCategory 
-              key={category}
-              clues={clues.splice(0,5)}/>
-    });
+    // let clues = this.props.clues;
+    // const categories = this.state.categories.map((category) => {
+    //   return <HostCategory 
+    //           key={category}
+    //           clues={clues.splice(0,5)}/>
+    // });
 
     return (
       <div className= 'gameplay-view'>
@@ -55,20 +73,11 @@ class HostGamePlay extends Component {
         <div className="waitingGame animated infinite flash">
           Waiting for game to Begin...
         </div> :
-        Object.keys(this.props.activeClue).length > 0 ?
-        <div>
-          <div className= 'host-gameplay-question'>
-          {this.handleQuestionLength()}
-          </div>
-          <div className="buttons-question">
-            <Link to='/hostanswer'>
-              <a onClick={this.handleClick.bind(this)} className="button1 a" id="activateUsers">Activate Users</a>
-            </Link>
-          </div>
-        </div>:
+        this.state.categories.length > 0 ?
         <div className="waitingClue animated infinite flash">
-          {categories}
-        </div>
+          {this.state.categories}
+        </div> :
+        <div></div>
       }
       </div>
     );
@@ -76,7 +85,7 @@ class HostGamePlay extends Component {
 }
 
 function mapStateToProps(state){
-  console.log('inside hostgameplay', state.gameplay.activeClue);
+  console.log('isGameActive', state.gameplay.isGameActive);
   return {
     isGameActive: state.gameplay.isGameActive,
     activeClue: state.gameplay.activeClue,

@@ -6,6 +6,7 @@ export default function( state = {
 }, action) {
   switch(action.type){
     case CREATE_GAME:
+    console.log('inside gameboard reducer', action.payload.clues);
     	return {...state, clues: action.payload.clues, categories: action.payload.categories};
     default:
       return state;

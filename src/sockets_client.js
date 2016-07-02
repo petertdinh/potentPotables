@@ -31,22 +31,22 @@ export function initSockets(store){
     store.dispatch({type: DISABLE_BUTTON, payload: data.isButtonClicked});
   });
 
-  socket.on('gameActive', function(data) {
+  socket.on('gameActive', function() {
     console.log('listening start game client');
     store.dispatch({type: ACTIVATE_GAME, payload: true});
   });
 
-  socket.on('fetchGame', function(data) {
-    var tempClues= data.clues;
-    for (var i= 0; i< tempClues.clues.length; i+=5){
-      tempClues.clues[i].value= 200;
-      tempClues.clues[i+1].value= 400;
-      tempClues.clues[i+2].value= 600;
-      tempClues.clues[i+3].value= 800;
-      tempClues.clues[i+4].value= 1000;
-    }
-    store.dispatch({type: CREATE_GAME, payload: tempClues});
-  });
+  // socket.on('fetchGame', function(data) {
+  //   var tempClues= data.clues;
+  //   for (var i= 0; i< tempClues.clues.length; i+=5){
+  //     tempClues.clues[i].value= 200;
+  //     tempClues.clues[i+1].value= 400;
+  //     tempClues.clues[i+2].value= 600;
+  //     tempClues.clues[i+3].value= 800;
+  //     tempClues.clues[i+4].value= 1000;
+  //   }
+  //   store.dispatch({type: CREATE_GAME, payload: tempClues});
+  // });
 
   socket.on('currentClue', function(data) {
     store.dispatch({type: SET_ACTIVE_CLUE, payload: data.clue});
@@ -84,6 +84,19 @@ export function initSockets(store){
   socket.on('host', function(data) {
     store.dispatch({type: START_GAME_ERROR, payload: ''});
   });
+
+  socket.on('hostJoins', function(data) {
+    console.log('data line 89', data);
+    var tempClues= data;
+    for (var i= 0; i< tempClues.clues.length; i+=5){
+      tempClues.clues[i].value= 200;
+      tempClues.clues[i+1].value= 400;
+      tempClues.clues[i+2].value= 600;
+      tempClues.clues[i+3].value= 800;
+      tempClues.clues[i+4].value= 1000;
+    }
+    store.dispatch({type: CREATE_GAME, payload: tempClues});
+  })
 }
 
 //all client-side socket emitters will be contained here
@@ -131,4 +144,8 @@ export function skipClue(room, clue) {
 
 export function activateButtons(room) {
   socket.emit('activateButtons', {room: room});
+}
+
+export function hostJoins(room){
+  socket.emit('hostJoins', {room: room});
 }

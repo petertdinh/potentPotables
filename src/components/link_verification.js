@@ -12,6 +12,10 @@ class LinkVerification extends Component {
     this.props.linkCodeVerification(formProps);
   }
 
+  componentWillUnmount() {
+    
+  }
+
   renderAlert() {
     if (this.props.linkAuthError !== ''){
       return (

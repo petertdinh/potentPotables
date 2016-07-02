@@ -6,6 +6,7 @@ const path = require('path');
 const rp = require('request-promise');
 const _ = require('lodash');
 const express = require('express');
+const roomStorage= require('./map_router_to_sockets');
 
 module.exports = function(app, io) {
 	app.use(express.static(path.join(__dirname, '../public')));
@@ -77,6 +78,7 @@ module.exports = function(app, io) {
 			//neatly pack them up to be delivered to client
 			setTimeout(function(){ 
 				res.status(201);
+				roomStorage.gameboard = payload;
 				io.sockets.in(room).emit('fetchGame', {clues: payload});
 			}, 1200);
 		})
