@@ -77,9 +77,9 @@ export function createUser(username, photo) {
   }
 }
 
-export function fetchGame() {
+export function fetchGame(linkcode) {
   return function(dispatch){
-    axios.post('/game')
+    axios.post('/game', {linkcode})
       .then(response => {
         var tempClues= response.data.clues;
         for (var i= 0; i< tempClues.clues.length; i+=5){

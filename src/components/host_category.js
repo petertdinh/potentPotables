@@ -8,3 +8,5 @@ const HostCategories = (props) => (
       	{props.key}
       </div>
 	)
+
+export default HostCategories;

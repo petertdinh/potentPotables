@@ -48,6 +48,7 @@ class HostGamePlay extends Component {
               key={category}
               clues={clues.splice(0,5)}/>
     });
+
     return (
       <div className= 'gameplay-view'>
       {this.props.isGameActive === false ?
@@ -66,7 +67,7 @@ class HostGamePlay extends Component {
           </div>
         </div>:
         <div className="waitingClue animated infinite flash">
-          Waiting for clue to be selected...{/*categories*/}
+          {categories}
         </div>
       }
       </div>

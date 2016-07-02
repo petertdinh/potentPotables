@@ -46,6 +46,7 @@ module.exports = function(app, io) {
 		//host selects the size of the game board, otherwise defaults to 5x6
 		var columns = req.body.categories || 6;
 		var rows = req.body.clues || 5;
+		var room = req.body.linkcode;
 		//grab 13 random clues and out of those, randomly pick out 6 of the 23
 		rp('http://jservice.io/api/random?count=23')
 		.then((body) => {
@@ -74,7 +75,10 @@ module.exports = function(app, io) {
 				.catch(function(err) {console.log(err);})
 			}
 			//neatly pack them up to be delivered to client
-			setTimeout(function(){ res.json({ clues: payload }); }, 1200);
+			setTimeout(function(){ 
+				res.status(201);
+				io.sockets.in(room).emit('fetchGame', {clues: payload});
+			}, 1200);
 		})
 		.catch(function(err) { console.log(err); });
 	});

@@ -14,6 +14,7 @@ export const SKIP = 'SKIP';
 export const ACTIVATE_BUTTONS = 'ACTIVATE_BUTTONS';
 export const SKIP_INCORRECT= 'SKIP_INCORRECT';
 export const START_GAME_ERROR = 'START_GAME_ERROR';
+export const CREATE_GAME = 'CREATE_GAME';
 
 //nearly all client-side socket listeners will be be contained here
 //initSockets will be exported to client-side index
@@ -33,6 +34,18 @@ export function initSockets(store){
   socket.on('gameActive', function(data) {
     console.log('listening start game client');
     store.dispatch({type: ACTIVATE_GAME, payload: true});
+  });
+
+  socket.on('fetchGame', function(data) {
+    var tempClues= data.clues;
+    for (var i= 0; i< tempClues.clues.length; i+=5){
+      tempClues.clues[i].value= 200;
+      tempClues.clues[i+1].value= 400;
+      tempClues.clues[i+2].value= 600;
+      tempClues.clues[i+3].value= 800;
+      tempClues.clues[i+4].value= 1000;
+    }
+    store.dispatch({type: CREATE_GAME, payload: tempClues});
   });
 
   socket.on('currentClue', function(data) {

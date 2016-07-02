@@ -9,7 +9,7 @@ import _ from 'lodash';
 class LinkLanding extends Component {
   componentDidMount(){
     joinRoom(this.props.link);
-    this.props.fetchGame();
+    this.props.fetchGame(this.props.link);
   }
 
   handleClick() {
